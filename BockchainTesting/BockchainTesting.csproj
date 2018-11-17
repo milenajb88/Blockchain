@@ -61,6 +61,10 @@
       <Project>{ff8519d3-afde-4dec-8b6e-07ab8c970355}</Project>
       <Name>DAO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Nodo1Client\NodeClient.csproj">
+      <Project>{9bbca087-bae1-44c6-a7ff-34a19f99b973}</Project>
+      <Name>NodeClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

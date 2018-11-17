@@ -24,7 +24,7 @@ namespace Blockchain
 
         public Block CreateGenesisBlock()
         {
-            return new Block(DateTime.Now, null, null);
+            return new Block(null, null);
         }
 
         public void AddGenesisBlock()
@@ -66,7 +66,7 @@ namespace Blockchain
                 //This is needed in case of hash had been recalculated and changed on the altered block (the previous one)
                 if (currentBlock.PreviousHash != previousBlock.Hash)
                 {
-                    Console.WriteLine($"Corrupted block id " + currentBlock.Index);
+                    Console.WriteLine($"Corrupted block id " + (currentBlock.Index-1));
                     return false;
                 }
             }
