@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BockchainTesting", "Bockcha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAO", "DAO\DAO.csproj", "{FF8519D3-AFDE-4DEC-8B6E-07AB8C970355}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeClient", "Nodo1Client\NodeClient.csproj", "{9BBCA087-BAE1-44C6-A7FF-34A19F99B973}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NodeClient", "NodeClient\NodeClient.csproj", "{9BBCA087-BAE1-44C6-A7FF-34A19F99B973}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
