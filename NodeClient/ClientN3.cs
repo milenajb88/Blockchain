@@ -19,10 +19,9 @@ namespace NodeClient
         {
             this._client = new HttpClient();
             //Change uri to n3
-            this._client.BaseAddress = new Uri("http://localhost:51241");
+            this._client.BaseAddress = new Uri("http://localhost:53473");
             this._client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
-
 
         public async Task<Ticket> createTicket(Ticket ticket)
         {
@@ -136,6 +135,30 @@ namespace NodeClient
 
         }
 
+        public async Task<List<Blockchain.Block>> getChainAsync()
+        {
+            try
+            {
+                IEnumerable<DAO.Block> result = new List<DAO.Block>();
+                result = await Task.Run(async () => { return getBlocks(); }).Result;
 
+                List<Blockchain.Block> chain = new List<Blockchain.Block>();
+                foreach (Block b in result)
+                {
+
+                    Ticket t = await getTicket(b.IdTicket.Value);
+                    Blockchain.Ticket blockTicket = new Blockchain.Ticket(t.Id, t.CustomerName, t.AccountId.Value, t.CreateDate.Value, t.ProblemDescription);
+                    chain.Add(new Blockchain.Block(b.Id, b.PreviousHash, blockTicket, b.Hash));
+                }
+
+                return chain;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Couldn't load chain");
+                throw;
+            }
+
+        }
     }
 }

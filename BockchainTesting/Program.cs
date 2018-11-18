@@ -53,7 +53,7 @@ namespace BockchainTesting
             // Console.WriteLine(JsonConvert.SerializeObject(chain, Newtonsoft.Json.Formatting.Indented));
 
             //Cliente del nodo 1
-            ClientN1 client = new ClientN1();
+            ClientN3 client = new ClientN3();
 
             //Insertando ticket
             DAO.Ticket t = await client.createTicket(new DAO.Ticket { CustomerName = "Jane Doe", AccountId = 002, CreateDate = DateTime.Now, ProblemDescription = "Service stop working" });
@@ -66,11 +66,11 @@ namespace BockchainTesting
 
 
             //consultando ticket ->poner id existente
-            DAO.Ticket t2 = await client.getTicket(14);
+            DAO.Ticket t2 = await client.getTicket(1);
             Console.WriteLine("get customer "+ t2.CustomerName+ " from ticket " + t2.Id);
 
             //consultando Block
-            DAO.Block b2 = await client.getBlock(4);
+            DAO.Block b2 = await client.getBlock(1);
             Console.WriteLine("get ticket from block " + b2.IdTicket);
 
             //trayendo cadena de blocks
