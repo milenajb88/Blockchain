@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BockchainTesting;
 
 namespace UI
 {
@@ -35,6 +36,8 @@ namespace UI
                 var description = TxT_Desc.Text;
 
                 DAO.Ticket ticket = new DAO.Ticket(1, userName, acctId, DateTime.Now, description);
+                InsertTicket insert = new InsertTicket();
+                insert.insertTicket(ticket);
                 FillLogs();
             }
         }
@@ -45,9 +48,9 @@ namespace UI
             string text1;
             string text2;
             string text3;
-            var fileStreamNode1 = new FileStream(@"D:\NodosBlockChain\Node1\Log.txt", FileMode.Open, FileAccess.Read);
-            var fileStreamNode2 = new FileStream(@"D:\NodosBlockChain\Node2\Log.txt", FileMode.Open, FileAccess.Read);
-            var fileStreamNode3 = new FileStream(@"D:\NodosBlockChain\Node3\Log.txt", FileMode.Open, FileAccess.Read);
+            var fileStreamNode1 = new FileStream(@"C:\Users\MILENA\Desktop\logs\Log1.txt", FileMode.Open, FileAccess.Read);
+            var fileStreamNode2 = new FileStream(@"C:\Users\MILENA\Desktop\logs\Log2.txt", FileMode.Open, FileAccess.Read);
+            var fileStreamNode3 = new FileStream(@"C:\Users\MILENA\Desktop\logs\Log3.txt", FileMode.Open, FileAccess.Read);
             using (var streamReader1 = new StreamReader(fileStreamNode1, Encoding.UTF8))
             {
                 text1 = streamReader1.ReadToEnd();

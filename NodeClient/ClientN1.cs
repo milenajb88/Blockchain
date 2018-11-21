@@ -34,9 +34,9 @@ namespace NodeClient
         {
             try
             {
-                var response = await _client.PostAsync("api/Ticket", stringContent(ticket));
+                var response = Task.Run(() => _client.PostAsync("api/Ticket", stringContent(ticket))).Result;
 
-                var resultString = await response.Content.ReadAsStringAsync();
+                var resultString = Task.Run(() => response.Content.ReadAsStringAsync()).Result;
 
                 var result = JsonConvert.DeserializeObject<Ticket>(resultString);
 
@@ -55,9 +55,9 @@ namespace NodeClient
         {
             try
             {
-                var response = await _client.GetAsync("api/Ticket/" + id);
+                var response = Task.Run(() => _client.GetAsync("api/Ticket/" + id)).Result;
 
-                var resultString = await response.Content.ReadAsStringAsync();
+                var resultString = Task.Run(() => response.Content.ReadAsStringAsync()).Result;
 
                 var result = JsonConvert.DeserializeObject<Ticket>(resultString);
 
@@ -76,9 +76,9 @@ namespace NodeClient
         {
             try
             {
-                var response = await _client.GetAsync("api/Block/" + id);
+                var response = Task.Run(() => _client.GetAsync("api/Block/" + id)).Result;
 
-                var resultString = await response.Content.ReadAsStringAsync();
+                var resultString = Task.Run(() => response.Content.ReadAsStringAsync()).Result;
 
                 var result = JsonConvert.DeserializeObject<Block>(resultString);
 
@@ -98,9 +98,9 @@ namespace NodeClient
         {
             try
             {
-                var response = await _client.PostAsync("api/Block", stringContent(Block));
+                var response = Task.Run(() => _client.PostAsync("api/Block", stringContent(Block))).Result;
 
-                var resultString = await response.Content.ReadAsStringAsync();
+                var resultString = Task.Run(() => response.Content.ReadAsStringAsync()).Result;
 
                 var result = JsonConvert.DeserializeObject<Block>(resultString);
 
@@ -121,13 +121,14 @@ namespace NodeClient
             return new StringContent(json, UnicodeEncoding.UTF8, "application/json");
         }
 
-        public async Task<IEnumerable<Block>> getBlocks()
+        public async Task<IEnumerable<Block>> GetBlocks()
         {
             try
             {
-                var response = await _client.GetAsync("api/Block/");
 
-                var resultString = await response.Content.ReadAsStringAsync();
+                var response = Task.Run(() => _client.GetAsync("api/Block/")).Result;
+
+                var resultString = Task.Run(() => response.Content.ReadAsStringAsync()).Result;
 
                 var result = JsonConvert.DeserializeObject<IEnumerable<Block>>(resultString);
 
@@ -147,13 +148,13 @@ namespace NodeClient
             try
             {
                 IEnumerable<DAO.Block> result = new List<DAO.Block>();
-                result = await Task.Run(async () => { return getBlocks(); }).Result;
+                result = Task.Run(() => GetBlocks()).Result;
 
                 List<Blockchain.Block> chain = new List<Blockchain.Block>();
                 foreach (Block b in result)
                 {
 
-                    Ticket t = await getTicket(b.IdTicket.Value);
+                    Ticket t = Task.Run(() => getTicket(b.IdTicket.Value)).Result;
                     DAO.Ticket blockTicket = new DAO.Ticket(t.Id, t.CustomerName, t.AccountId.Value, t.CreateDate.Value, t.ProblemDescription);
                     chain.Add(new Blockchain.Block(b.Id, b.PreviousHash, blockTicket, b.Hash));
                 }
