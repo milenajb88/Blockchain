@@ -19,46 +19,45 @@ namespace BockchainTesting
         Logger3 log3 = Logger3.getInstance();
 
         Blockchain.NodesValidation nodesValidation = new Blockchain.NodesValidation();
-        public string insertTicket(DAO.Ticket newT)
+        public void insertTicket(DAO.Ticket newT)
         {
             Boolean validateBool;
             Boolean resultBool;
-            string result = "";
             var blockChain1 = getBlocksClient1(client1);
             var blockChain2 = getBlocksClient2(client2);
             var blockChain3 = getBlocksClient3(client3);
 
             Blockchain.Ticket newTicket = new Blockchain.Ticket { Id = newT.Id, CustomerName = newT.CustomerName, AccountId = newT.AccountId, CreateDate = DateTime.Now, ProblemDescription = newT.ProblemDescription };
 
-            //Este if es en caso de que los nodos estén vacios
+            //In case the nodes are empty
             if ((blockChain1.Count == 0) & (blockChain2.Count == 0) & (blockChain3.Count == 0))
             {
                 createGenesisBlock(1);
                 log.Debug("Creating Genesis Block for Node 1");
                 createGenesisBlock(2);
-                log.Debug("Creating Genesis Block for Node 2");
+                log2.Debug("Creating Genesis Block for Node 2");
                 createGenesisBlock(3);
-                log.Debug("Creating Genesis Block for Node 3");
+                log3.Debug("Creating Genesis Block for Node 3");
             }
             else
             {
-                //Para verificar que todos los nodos tienen el mismo tamaño
+                //To verify that all nodes are the same size
                 validateBool = nodesValidation.sizeValidate(blockChain1, blockChain2, blockChain3);
                 if (validateBool == true)
                 {
-                    //Verificar que la cadena del nodo1 es consistente
+                    //Verify that the chain of blockChain1 is consistent
                     resultBool = nodesValidation.isValid(blockChain1,1);
                     if (resultBool == true)
                     {
-                        //Verificar que la cadena del nodo2 es consistente
+                        //Verify that the chain of blockChain2 is consistent
                         resultBool = nodesValidation.isValid(blockChain2,2);
                         if (resultBool == true)
                         {
-                            //Verificar que la cadena del nodo3 es consistente
+                            //Verify that the chain of blockChain3 is consistent
                             resultBool = nodesValidation.isValid(blockChain3,3);
                             if (resultBool == true)
                             {
-                                // Verificar que los tres nodos son iguales entonces
+                                //Verify that the three nodes are equal 
                                 resultBool = nodesValidation.nodesValidate(blockChain1, blockChain2, blockChain3);
                                 if (resultBool == true)
                                 {
@@ -67,35 +66,13 @@ namespace BockchainTesting
                                     createBlock(2, blockChain1[blockChain1.Count], newT);
                                     log2.Debug("Adding Block to Node 2");
                                     createBlock(3, blockChain1[blockChain1.Count], newT);
-                                    log3.Debug("Adding Block to Node 3");
-                                }
-                                else
-                                {
-                                    return result;
+                                    log3.Debug("Adding Block to Node 3"); 
                                 }
                             }
-                            else
-                            {
-                                return result + "en el nodo1";
-                            }
-
-                        }
-                        else
-                        {
-                            return result + "en el nodo2";
                         }
                     }
-                    else
-                    {
-                        return result + "en el nodo1";
-                    }
-                }
-                else
-                {
-                    return result;
                 }
             }
-            return result;
         }
 
         private List<Blockchain.Block> getBlocksClient1(ClientN1 client)
@@ -121,8 +98,7 @@ namespace BockchainTesting
             List<Blockchain.Block> chain = new List<Blockchain.Block>();
             return task.Result;
         }
-
-
+        
         private void createGenesisBlock(int type)
         {
             string uri = "";

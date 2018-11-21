@@ -23,7 +23,7 @@ namespace Blockchain
         public Boolean nodesValidate(List<Block> node1, List<Block> node2, List<Block> node3)
         {
             Boolean result = false;
-            for (int i = 0; i <= node1.Count; i++)
+            for (int i = 0; i < node1.Count; i++)
             {
                 if ((node1[i].CalculateHash() == node2[i].CalculateHash()) & (node2[i].CalculateHash() == node3[i].CalculateHash()))
                 {
@@ -115,7 +115,11 @@ namespace Blockchain
             for (int i = 0; i < nodo.Count; i++)
             {
                 Block currentBlock = nodo[i];
-                Block previousBlock = nodo[i - 1];
+                Block previousBlock = new Block();
+                if (i > 0)
+                {
+                    previousBlock = nodo[i - 1];
+                }
                 if (currentBlock.Hash != currentBlock.CalculateHash())
                 {
                     log1.Debug(String.Format("Block # {0} from block chain {1} is corrupted", currentBlock.Index, chain));
@@ -123,9 +127,12 @@ namespace Blockchain
                     log3.Debug(String.Format("Block # {0} from block chain {1} is corrupted", currentBlock.Index, chain));
                     return false;
                 }
-                if (currentBlock.PreviousHash != previousBlock.Hash)
+                if (i > 0)
                 {
-                    return false;
+                    if (currentBlock.PreviousHash != previousBlock.Hash)
+                    {
+                        return false;
+                    }
                 }
             }
             return true;
