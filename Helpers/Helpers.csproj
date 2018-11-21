@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{09B1C5E3-73B8-4BD7-BA36-1908C60B7089}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>BockchainTesting</RootNamespace>
-    <AssemblyName>BockchainTesting</AssemblyName>
+    <ProjectGuid>{FDAFA5FB-94FC-4362-B415-B8B284382103}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Helpers</RootNamespace>
+    <AssemblyName>Helpers</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -31,14 +30,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject>
-    </StartupObject>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,34 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InsertTicket.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Logger1.cs" />
+    <Compile Include="Logger2.cs" />
+    <Compile Include="Logger3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Blockchain\Blockchain.csproj">
-      <Project>{e4c99156-9f27-4c3d-9720-cf19135a36eb}</Project>
-      <Name>Blockchain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DAO\DAO.csproj">
-      <Project>{ff8519d3-afde-4dec-8b6e-07ab8c970355}</Project>
-      <Name>DAO</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Helpers\Helpers.csproj">
-      <Project>{fdafa5fb-94fc-4362-b415-b8b284382103}</Project>
-      <Name>Helpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NodeClient\NodeClient.csproj">
-      <Project>{9bbca087-bae1-44c6-a7ff-34a19f99b973}</Project>
-      <Name>NodeClient</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
