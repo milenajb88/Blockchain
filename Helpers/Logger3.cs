@@ -30,7 +30,7 @@ namespace Helpers
         {
             getInstance();
             TextWriter tsw = new StreamWriter(logFilePath, true);
-            tsw.Write(String.Format("{0} - {1}", DateTime.Now, message));
+            tsw.Write(String.Format("{0} - {1}", DateTime.Now.ToString("HH:mm:ss"), message));
             tsw.WriteLine();
             tsw.Close();
         }

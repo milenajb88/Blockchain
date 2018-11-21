@@ -1,4 +1,5 @@
 ﻿using Blockchain;
+using Helpers;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -33,7 +34,7 @@ namespace UI
                 var acctId = Convert.ToInt32(TxT_AcctID.Text);
                 var description = TxT_Desc.Text;
 
-                Ticket ticket = new Ticket(1, userName, acctId, DateTime.Now, description);
+                DAO.Ticket ticket = new DAO.Ticket(1, userName, acctId, DateTime.Now, description);
                 FillLogs();
             }
         }

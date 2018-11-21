@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Helpers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,37 +9,52 @@ namespace Blockchain
 {
     public class NodesValidation
     {
-        //Este metodos se llama cuando la cadena es != null
-        public string nodesValidate(List<Block> nodo1, List<Block> nodo2, List<Block> nodo3)
-        {
-            string result = "Nodos vacios";
+        Logger1 log1 = Logger1.getInstance();
+        Logger2 log2 = Logger2.getInstance();
+        Logger3 log3 = Logger3.getInstance();
 
-            for (int i = 0; i <= nodo1.Count; i++)
+        /// <summary>
+        /// This method is called if the original chain is not null.
+        /// </summary>
+        /// <param name="node1">First blockchain to compare</param>
+        /// <param name="node2">Second blockchain to compare</param>
+        /// <param name="node3">Third blockchain to compare</param>
+        /// <returns></returns>
+        public Boolean nodesValidate(List<Block> node1, List<Block> node2, List<Block> node3)
+        {
+            Boolean result = false;
+            for (int i = 0; i <= node1.Count; i++)
             {
-                if ((nodo1[i].CalculateHash() == nodo2[i].CalculateHash()) & (nodo2[i].CalculateHash() == nodo3[i].CalculateHash()))
+                if ((node1[i].CalculateHash() == node2[i].CalculateHash()) & (node2[i].CalculateHash() == node3[i].CalculateHash()))
                 {
-                    result = "Iguales";
+                    log1.Debug(String.Format("The block # {0} is valid in every chain", i + 1));
+                    log2.Debug(String.Format("The block # {0} is valid in every chain", i + 1));
+                    log3.Debug(String.Format("The block # {0} is valid in every chain", i + 1));
+                    result = true;
                 }
                 else
                 {
-                    if (nodo1[i].CalculateHash() == nodo2[i].CalculateHash())
+                    if (node1[i].CalculateHash() == node2[i].CalculateHash())
                     {
-                        if (nodo1[i].CalculateHash() != nodo3[i].CalculateHash())
-                        {
-                            result = "El nodo3 está corrupto";
-                        }
+                        log1.Debug(String.Format("The block # {0} is corrupted at chain 3", i + 1));
+                        log2.Debug(String.Format("The block # {0} is corrupted at chain 3", i + 1));
+                        log3.Debug(String.Format("My block # {0} is corrupted", i + 1));
                     }
                     else
                     {
-                        if (nodo1[i].CalculateHash() == nodo3[i].CalculateHash())
+                        if (node1[i].CalculateHash() == node3[i].CalculateHash())
                         {
-                            result = "El nodo2 está corrupto";
+                            log1.Debug(String.Format("The block # {0} is corrupted at chain 2", i + 1));
+                            log2.Debug(String.Format("My block # {0} is corrupted", i + 1));
+                            log3.Debug(String.Format("The block # {0} is corrupted at chain 2", i + 1));
                         }
                         else
                         {
-                            if (nodo2[i].CalculateHash() == nodo3[i].CalculateHash())
+                            if (node2[i].CalculateHash() == node3[i].CalculateHash())
                             {
-                                result = "El nodo1 está corrupto";
+                                log1.Debug(String.Format("My block # {0} is corrupted", i + 1));
+                                log2.Debug(String.Format("The block # {0} is corrupted at chain 1", i + 1));
+                                log3.Debug(String.Format("The block # {0} is corrupted at chain 1", i + 1));
                             }
                         }
                     }
@@ -47,12 +63,16 @@ namespace Blockchain
             return result;
         }
 
-        public string sizeValidate(List<Block> nodo1, List<Block> nodo2, List<Block> nodo3)
+        public Boolean sizeValidate(List<Block> nodo1, List<Block> nodo2, List<Block> nodo3)
         {
+            Boolean returnValue = false;
             string result = "";
-            if ((nodo1.Count == nodo2.Count) & (nodo2.Count == nodo3.Count))
+            if ((nodo1.Count == nodo2.Count) && (nodo2.Count == nodo3.Count))
             {
-                result = "Iguales";
+                returnValue = true;
+                log1.Debug("We have the same number of blocks");
+                log2.Debug("We have the same number of blocks");
+                log3.Debug("We have the same number of blocks");
             }
             else
             {
@@ -60,28 +80,37 @@ namespace Blockchain
                 {
                     if (nodo1.Count != nodo3.Count)
                     {
-                        result = "El nodo3 tiene diferente tamaño";
+                        result = "The node 3 has a different size";
+                        log1.Debug(result);
+                        log2.Debug(result);
+                        log3.Debug("I have a different size");
                     }
                 }
                 else
                 {
                     if (nodo1.Count == nodo3.Count)
                     {
-                        result = "El nodo2 tiene diferente tamaño";
+                        result = "The node 2 has a different size";
+                        log1.Debug(result);
+                        log2.Debug("I have a different size");
+                        log3.Debug(result);
                     }
                     else
                     {
                         if (nodo2.Count == nodo3.Count)
                         {
-                            result = "El nodo1 tiene diferente tamaño";
+                            result = "The node 1 has a different size";
+                            log1.Debug("I have a different size");
+                            log2.Debug(result);
+                            log3.Debug(result);
                         }
                     }
                 }
             }
-            return result;
+            return returnValue;
         }
 
-        public string isValid(List<Block> nodo)
+        public Boolean isValid(List<Block> nodo, int chain)
         {
             for (int i = 0; i < nodo.Count; i++)
             {
@@ -89,14 +118,17 @@ namespace Blockchain
                 Block previousBlock = nodo[i - 1];
                 if (currentBlock.Hash != currentBlock.CalculateHash())
                 {
-                    return "Bloque # " + currentBlock.Index + "corrupto";
+                    log1.Debug(String.Format("Block # {0} from block chain {1} is corrupted", currentBlock.Index, chain));
+                    log2.Debug(String.Format("Block # {0} from block chain {1} is corrupted", currentBlock.Index, chain));
+                    log3.Debug(String.Format("Block # {0} from block chain {1} is corrupted", currentBlock.Index, chain));
+                    return false;
                 }
                 if (currentBlock.PreviousHash != previousBlock.Hash)
                 {
-                    return "Bloque # " + (currentBlock.Index - 1) + "corrupto";
+                    return false;
                 }
             }
-            return "true";
+            return true;
         }
     }
 }

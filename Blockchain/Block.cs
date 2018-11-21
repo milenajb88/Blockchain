@@ -9,14 +9,19 @@ using System.Threading.Tasks;
 
 namespace Blockchain
 {
-  public class Block
+    public class Block
     {
         public int Index { get; set; }
         public string PreviousHash { get; set; }
         public string Hash { get; set; }
-        public Ticket  Ticket { get; set; }
+        public DAO.Ticket Ticket { get; set; }
 
-        public Block(string previousHash, Ticket ticket)
+        public Block()
+        {
+
+        }
+
+        public Block(string previousHash, DAO.Ticket ticket)
         {
             Index = 0;
             PreviousHash = previousHash;
@@ -24,7 +29,7 @@ namespace Blockchain
             Hash = CalculateHash();
         }
 
-        public Block(int index, string previousHash, Ticket ticket, string hash)
+        public Block(int index, string previousHash, DAO.Ticket ticket, string hash)
         {
             this.Index = index;
             this.PreviousHash = previousHash;

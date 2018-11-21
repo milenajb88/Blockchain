@@ -97,18 +97,7 @@ namespace BockchainTesting
             ClientN2 client2 = new ClientN2();
             ClientN3 client3 = new ClientN3();
 
-            DAO.Ticket ticket = new DAO.Ticket { CustomerName = "Jane Doe", AccountId = 002, CreateDate = DateTime.Now, ProblemDescription = "Service stop working" };
-            DAO.Block block = new DAO.Block { PreviousHash = "none", Hash = "none", IdTicket = ticket.Id };
-
-            //Insertando
-            DAO.Ticket t1 = await client1.createTicket(ticket);
-            DAO.Block b1 = await client1.createBlock(block);
-
-            DAO.Ticket t2 = await client2.createTicket(ticket);
-            DAO.Block b2 = await client2.createBlock(block);
-
-            DAO.Ticket t3 = await client3.createTicket(ticket);
-            DAO.Block b3 = await client3.createBlock(block);
+            
             
             /**
             List<Blockchain.Block> chain1 = new List<Blockchain.Block>();

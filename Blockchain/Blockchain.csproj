@@ -57,6 +57,13 @@
       <Project>{ff8519d3-afde-4dec-8b6e-07ab8c970355}</Project>
       <Name>DAO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Helpers\Helpers.csproj">
+      <Project>{fdafa5fb-94fc-4362-b415-b8b284382103}</Project>
+      <Name>Helpers</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

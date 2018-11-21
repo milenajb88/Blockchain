@@ -29,5 +29,14 @@ namespace Blockchain
 
         }
 
+        public Ticket(DAO.Ticket ticket)
+        {
+            this.Id = ticket.Id;
+            this.CustomerName = ticket.CustomerName;
+            this.AccountId = ticket.AccountId;
+            this.CreateDate = ticket.CreateDate;
+            this.ProblemDescription = ticket.ProblemDescription;
+        }
+
     }
 }

@@ -147,7 +147,7 @@ namespace NodeClient
                 {
 
                     Ticket t = await getTicket(b.IdTicket.Value);
-                    Blockchain.Ticket blockTicket = new Blockchain.Ticket(t.Id, t.CustomerName, t.AccountId.Value, t.CreateDate.Value, t.ProblemDescription);
+                    DAO.Ticket blockTicket = new DAO.Ticket(t.Id, t.CustomerName, t.AccountId.Value, t.CreateDate.Value, t.ProblemDescription);
                     chain.Add(new Blockchain.Block(b.Id, b.PreviousHash, blockTicket, b.Hash));
                 }
 

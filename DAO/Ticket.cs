@@ -15,5 +15,13 @@ namespace DAO
         public DateTime? CreateDate { get; set; }
         public string ProblemDescription { get; set; }
 
+        public Ticket(int id,string customer, int account,DateTime date, string problem)
+        {
+            this.Id = id;
+            this.CustomerName = customer;
+            this.AccountId = account;
+            this.CreateDate = date;
+            this.ProblemDescription = problem;
+        }
     }
 }

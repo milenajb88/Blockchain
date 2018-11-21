@@ -22,6 +22,13 @@ namespace NodeClient
             this._client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
+        public ClientN1(string uri)
+        {
+            this._client = new HttpClient();
+            this._client.BaseAddress = new Uri(uri);
+            this._client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
 
         public async Task<Ticket> createTicket(Ticket ticket)
         {
@@ -147,7 +154,7 @@ namespace NodeClient
                 {
 
                     Ticket t = await getTicket(b.IdTicket.Value);
-                    Blockchain.Ticket blockTicket = new Blockchain.Ticket(t.Id, t.CustomerName, t.AccountId.Value, t.CreateDate.Value, t.ProblemDescription);
+                    DAO.Ticket blockTicket = new DAO.Ticket(t.Id, t.CustomerName, t.AccountId.Value, t.CreateDate.Value, t.ProblemDescription);
                     chain.Add(new Blockchain.Block(b.Id, b.PreviousHash, blockTicket, b.Hash));
                 }
 

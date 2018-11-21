@@ -13,5 +13,9 @@ namespace DAO
         public string Hash { get; set; }
         public int? IdTicket { get; set; }
 
+        public Block()
+        {
+
+        }
     }
 }
