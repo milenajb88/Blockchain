@@ -11,8 +11,8 @@ namespace DAO
     {
         public int Id { get; set; }
         public string CustomerName { get; set; }
-        public int? AccountId { get; set; }
-        public DateTime? CreateDate { get; set; }
+        public int AccountId { get; set; }
+        public DateTime CreateDate { get; set; }
         public string ProblemDescription { get; set; }
 
         public Ticket(int id,string customer, int account,DateTime date, string problem)

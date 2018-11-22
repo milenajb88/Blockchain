@@ -7,40 +7,106 @@ using System.Text;
 using System.Threading.Tasks;
 using DAO;
 using Newtonsoft.Json;
+using EntityNode1;
+using Blockchain;
+
 
 namespace NodeClient
 {
     public class ClientN1
     {
-        private HttpClient _client;
-
-
         public ClientN1()
         {
-            this._client = new HttpClient();
-            this._client.BaseAddress = new Uri("http://localhost:51241");
-            this._client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        }
 
-        public ClientN1(string uri)
-        {
-            this._client = new HttpClient();
-            this._client.BaseAddress = new Uri(uri);
-            this._client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
 
-        public async Task<Ticket> createTicket(Ticket ticket)
+        public DAO.Ticket createTicket(DAO.Ticket ticket)
         {
             try
             {
-                var response = Task.Run(() => _client.PostAsync("api/Ticket", stringContent(ticket))).Result;
+                using (var context = new Node1Context())
+                {
+                    var ticketModel = new EntityNode1.Ticket()
+                    {
+                        AccountId = ticket.AccountId,
+                        CreateDate = ticket.CreateDate,
+                        CustomerName = ticket.CustomerName,
+                        Id = ticket.Id,
+                        ProblemDescription = ticket.ProblemDescription
+                    };
+                    context.Ticket.Add(ticketModel);
+                    context.SaveChanges();
+                    ticket.Id = ticketModel.Id;
+                    return ticket;
+                };
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Ticket not saved");
+                throw;
+            }
 
-                var resultString = Task.Run(() => response.Content.ReadAsStringAsync()).Result;
+        }
 
-                var result = JsonConvert.DeserializeObject<Ticket>(resultString);
+        public DAO.Ticket getTicket(int id)
+        {
+            try
+            {
+                using (var context = new Node1Context())
+                {
+                    var ticketModel = context.Ticket.Where(x => x.Id == id).FirstOrDefault();
+                    var daoTicket = new DAO.Ticket(ticketModel.Id, ticketModel.CustomerName, ticketModel.AccountId.Value, ticketModel.CreateDate.Value, ticketModel.ProblemDescription);
+                    return daoTicket;
+                };
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Couldn't load ticket");
+                throw;
+            }
 
-                return result;
+        }
+
+        public Blockchain.Block getBlock(int id)
+        {
+            try
+            {
+                using (var context = new Node1Context())
+                {
+                    var blockModel = context.Block.Where(x => x.Id == id).FirstOrDefault();
+                    var ticketModel = getTicket(blockModel.IdTicket.Value);
+                    var daoTicket = new DAO.Ticket(ticketModel.Id, ticketModel.CustomerName, ticketModel.AccountId, ticketModel.CreateDate, ticketModel.ProblemDescription);
+                    var block = new Blockchain.Block(blockModel.Id, blockModel.PreviousHash, daoTicket, blockModel.Hash);
+                    return block;
+                };
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Couldn't load ticket");
+                throw;
+            }
+
+        }
+
+
+        public void createBlock(DAO.Block Block)
+        {
+            try
+            {
+                using (var context = new Node1Context())
+                {
+                    var blockModel = new EntityNode1.Block()
+                    {
+                        Id = Block.Id,
+                        Hash = Block.Hash,
+                        IdTicket = Block.IdTicket,
+                        PreviousHash = Block.PreviousHash,
+                    };
+                    context.Block.Add(blockModel);
+                    context.SaveChanges();
+                    Block.Id = blockModel.Id;
+                };
 
             }
             catch (Exception e)
@@ -51,89 +117,15 @@ namespace NodeClient
 
         }
 
-        public async Task<Ticket> getTicket(int id)
+        private List<EntityNode1.Block> GetBlocks()
         {
             try
             {
-                var response = Task.Run(() => _client.GetAsync("api/Ticket/" + id)).Result;
-
-                var resultString = Task.Run(() => response.Content.ReadAsStringAsync()).Result;
-
-                var result = JsonConvert.DeserializeObject<Ticket>(resultString);
-
-                return result;
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Couldn't load ticket");
-                throw;
-            }
-
-        }
-
-        public async Task<Block> getBlock(int id)
-        {
-            try
-            {
-                var response = Task.Run(() => _client.GetAsync("api/Block/" + id)).Result;
-
-                var resultString = Task.Run(() => response.Content.ReadAsStringAsync()).Result;
-
-                var result = JsonConvert.DeserializeObject<Block>(resultString);
-
-                return result;
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Couldn't load ticket");
-                throw;
-            }
-
-        }
-
-
-        public async Task<Block> createBlock(Block Block)
-        {
-            try
-            {
-                var response = Task.Run(() => _client.PostAsync("api/Block", stringContent(Block))).Result;
-
-                var resultString = Task.Run(() => response.Content.ReadAsStringAsync()).Result;
-
-                var result = JsonConvert.DeserializeObject<Block>(resultString);
-
-                return result;
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine("Ticket not saved");
-                throw;
-            }
-
-        }
-
-        private StringContent stringContent(Object obj)
-        {
-            var json = JsonConvert.SerializeObject(obj);
-            return new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-        }
-
-        public async Task<IEnumerable<Block>> GetBlocks()
-        {
-            try
-            {
-
-                var response = Task.Run(() => _client.GetAsync("api/Block/")).Result;
-
-                var resultString = Task.Run(() => response.Content.ReadAsStringAsync()).Result;
-
-                var result = JsonConvert.DeserializeObject<IEnumerable<Block>>(resultString);
-
-                return result;
-
+                using (var context = new Node1Context())
+                {
+                    var blockList = context.Block.ToList();
+                    return blockList;
+                };
             }
             catch (Exception e)
             {
@@ -143,23 +135,20 @@ namespace NodeClient
 
         }
 
-        public async Task<List<Blockchain.Block>> getChainAsync()
+        public List<Blockchain.Block> getBlockChain()
         {
             try
             {
-                IEnumerable<DAO.Block> result = new List<DAO.Block>();
-                result = Task.Run(() => GetBlocks()).Result;
-
-                List<Blockchain.Block> chain = new List<Blockchain.Block>();
-                foreach (Block b in result)
+                var listaBlocks = GetBlocks();
+                List<Blockchain.Block> BlockList = new List<Blockchain.Block>();
+                foreach (EntityNode1.Block block in listaBlocks)
                 {
-
-                    Ticket t = Task.Run(() => getTicket(b.IdTicket.Value)).Result;
-                    DAO.Ticket blockTicket = new DAO.Ticket(t.Id, t.CustomerName, t.AccountId.Value, t.CreateDate.Value, t.ProblemDescription);
-                    chain.Add(new Blockchain.Block(b.Id, b.PreviousHash, blockTicket, b.Hash));
+                    var daoTicket = getTicket(block.IdTicket.Value);
+                    Blockchain.Block bcBlock = new Blockchain.Block() { Index = block.Id, Hash = block.Hash, PreviousHash = block.PreviousHash, Ticket = daoTicket };
+                    BlockList.Add(bcBlock);
                 }
-
-                return chain;
+                
+                return BlockList;
             }
             catch (Exception e)
             {

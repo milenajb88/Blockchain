@@ -122,9 +122,9 @@ namespace Blockchain
                 }
                 if (currentBlock.Hash != currentBlock.CalculateHash())
                 {
-                    log1.Debug(String.Format("Block # {0} from block chain {1} is corrupted", currentBlock.Index, chain));
-                    log2.Debug(String.Format("Block # {0} from block chain {1} is corrupted", currentBlock.Index, chain));
-                    log3.Debug(String.Format("Block # {0} from block chain {1} is corrupted", currentBlock.Index, chain));
+                    log1.Debug(String.Format("Block # {0} from block chain {1} is corrupted", i + 1, chain));
+                    log2.Debug(String.Format("Block # {0} from block chain {1} is corrupted", i + 1, chain));
+                    log3.Debug(String.Format("Block # {0} from block chain {1} is corrupted", i + 1, chain));
                     return false;
                 }
                 if (i > 0)

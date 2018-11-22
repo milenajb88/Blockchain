@@ -41,7 +41,8 @@ namespace Blockchain
         {
             SHA256 sha256 = SHA256.Create();
 
-            byte[] inputBytes = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(Ticket, Formatting.Indented));
+            //byte[] inputBytes = Encoding.ASCII.GetBytes(JsonConvert.SerializeObject(Ticket, Formatting.Indented));
+            byte[] inputBytes = Encoding.ASCII.GetBytes(string.Format("{0},{1},{2},{3},{4}", Ticket.Id, Ticket.CustomerName, Ticket.CreateDate, Ticket.AccountId, Ticket.ProblemDescription));
             byte[] outputBytes = sha256.ComputeHash(inputBytes);
 
             return Convert.ToBase64String(outputBytes);

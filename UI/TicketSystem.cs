@@ -20,6 +20,7 @@ namespace UI
         public TicketSystem()
         {
             InitializeComponent();
+            FillLogs();
         }
 
         private void BT_SendTicket_Click(object sender, EventArgs e)
@@ -39,6 +40,9 @@ namespace UI
                 InsertTicket insert = new InsertTicket();
                 insert.insertTicket(ticket);
                 FillLogs();
+                TxT_AcctID.Text = string.Empty;
+                TxT_Username.Text = string.Empty;
+                TxT_Desc.Text = string.Empty;
             }
         }
     
@@ -48,9 +52,9 @@ namespace UI
             string text1;
             string text2;
             string text3;
-            var fileStreamNode1 = new FileStream(@"C:\Users\MILENA\Desktop\logs\Log1.txt", FileMode.Open, FileAccess.Read);
-            var fileStreamNode2 = new FileStream(@"C:\Users\MILENA\Desktop\logs\Log2.txt", FileMode.Open, FileAccess.Read);
-            var fileStreamNode3 = new FileStream(@"C:\Users\MILENA\Desktop\logs\Log3.txt", FileMode.Open, FileAccess.Read);
+            var fileStreamNode1 = new FileStream(@"D:\NodosBlockChain\Node1\Log.txt", FileMode.Open, FileAccess.Read);
+            var fileStreamNode2 = new FileStream(@"D:\NodosBlockChain\Node2\Log.txt", FileMode.Open, FileAccess.Read);
+            var fileStreamNode3 = new FileStream(@"D:\NodosBlockChain\Node3\Log.txt", FileMode.Open, FileAccess.Read);
             using (var streamReader1 = new StreamReader(fileStreamNode1, Encoding.UTF8))
             {
                 text1 = streamReader1.ReadToEnd();
@@ -67,6 +71,21 @@ namespace UI
             TxT_Node1.Text = text1;
             TxT_Node2.Text = text2;
             TxT_Node3.Text = text3;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            clearLogs();
+        }
+
+        private void clearLogs()
+        {
+            File.WriteAllText(@"D:\NodosBlockChain\Node1\Log.txt", string.Empty);
+            File.WriteAllText(@"D:\NodosBlockChain\Node2\Log.txt", string.Empty);
+            File.WriteAllText(@"D:\NodosBlockChain\Node3\Log.txt", string.Empty);
+            TxT_Node1.Text = string.Empty;
+            TxT_Node2.Text = string.Empty;
+            TxT_Node3.Text = string.Empty;
         }
     }
 }

@@ -93,38 +93,38 @@ namespace BockchainTesting
 
             
             //Clientes
-            ClientN1 client1 = new ClientN1();
-            ClientN2 client2 = new ClientN2();
-            ClientN3 client3 = new ClientN3();
+    //        ClientN1 client1 = new ClientN1();
+    //        ClientN2 client2 = new ClientN2();
+    //        ClientN3 client3 = new ClientN3();
 
             
             
-            /**
-            List<Blockchain.Block> chain1 = new List<Blockchain.Block>();
-            chain1 = await client1.getChainAsync();
+    //        /**
+    //        List<Blockchain.Block> chain1 = new List<Blockchain.Block>();
+    //        chain1 = await client1.getChainAsync();
 
-            List<Blockchain.Block> chain2 = new List<Blockchain.Block>();
-            chain2 = await client2.getChainAsync();
+    //        List<Blockchain.Block> chain2 = new List<Blockchain.Block>();
+    //        chain2 = await client2.getChainAsync();
 
-            List<Blockchain.Block> chain3 = new List<Blockchain.Block>();
-            chain3 = await client3.getChainAsync();
-    */
+    //        List<Blockchain.Block> chain3 = new List<Blockchain.Block>();
+    //        chain3 = await client3.getChainAsync();
+    //*/
 
-            NodesValidation validation = new NodesValidation();
-            // string result = validation.sizeValidate(chain1, chain2, chain3);
-            //string result = validation.isValid(chain2);
-            //string result = validation.nodesValidate(chain1, chain2, chain3);
+    //        NodesValidation validation = new NodesValidation();
+    //        // string result = validation.sizeValidate(chain1, chain2, chain3);
+    //        //string result = validation.isValid(chain2);
+    //        //string result = validation.nodesValidate(chain1, chain2, chain3);
 
-            //trayendo cadena de blocks
-            List<Blockchain.Block> chain = new List<Blockchain.Block>();
-            chain = await client1.getChainAsync();
+    //        //trayendo cadena de blocks
+    //        List<Blockchain.Block> chain = new List<Blockchain.Block>();
+    //        chain = await client1.getChainAsync();
 
-            foreach (Blockchain.Block b in chain)
-            {
-                Console.WriteLine("Im block " + b.Index + " my ticket is " + b.Ticket.Id + " from customer " + b.Ticket.CustomerName);
-            }
+    //        foreach (Blockchain.Block b in chain)
+    //        {
+    //            Console.WriteLine("Im block " + b.Index + " my ticket is " + b.Ticket.Id + " from customer " + b.Ticket.CustomerName);
+    //        }
             
-            Console.ReadKey();
+    //        Console.ReadKey();
 
 
 
